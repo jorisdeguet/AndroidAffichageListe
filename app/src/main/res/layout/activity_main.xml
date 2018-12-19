@@ -8,12 +8,12 @@
     android:background="#a0e6a9"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/superduperrecycler"
+        android:scrollbars="vertical"
         android:background="#7eb1e7"
-         />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/superduperbutton"
