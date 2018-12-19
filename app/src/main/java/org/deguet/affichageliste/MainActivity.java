@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
+import org.deguet.affichageliste.evts.AjoutTruc;
 import org.deguet.affichageliste.evts.SuppressionTruc;
 
 import java.util.ArrayList;
@@ -38,14 +39,13 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar mySnackbar = Snackbar.make(coordinatorLayout,
-                        "coucou", Snackbar.LENGTH_SHORT);
-                // mySnackbar.setAction(R.string.undo_string, new MyUndoListener());
-                //mySnackbar.show();
-                String contenu = "truc " + random.nextInt(100);
-                Truc nouveauTruc = new Truc(contenu);
-                elements.add(nouveauTruc);
-                adapter.notifyDataSetChanged();
+                DialogueAjout dialog = new DialogueAjout();
+                dialog.show(getSupportFragmentManager(), "AjoutDialogue");
+
+//                String contenu = "truc " + random.nextInt(100);
+//                Truc nouveauTruc = new Truc(contenu);
+//                elements.add(nouveauTruc);
+//                adapter.notifyDataSetChanged();
             }
         });
 
@@ -81,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
     public void superduper(SuppressionTruc suppr) {
         //Toast.makeText(this, "Suppression " + suppr.elementSupprime.contenu, Toast.LENGTH_SHORT).show();
         elements.remove(suppr.elementSupprime);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Subscribe
+    public void ajout(AjoutTruc ajout) {
+        //Toast.makeText(this, "Suppression " + suppr.elementSupprime.contenu, Toast.LENGTH_SHORT).show();
+        Truc nouveau = new Truc(ajout.contenu);
+        elements.add(nouveau);
         adapter.notifyDataSetChanged();
     }
 
