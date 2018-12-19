@@ -10,8 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.deguet.affichageliste.evts.SuppressionTruc;
+
+import java.util.List;
+
 public class MonAdapteur extends RecyclerView.Adapter<MonAdapteur.MyViewHolder> {
-    private Truc[] mDataset;
+    private List<Truc> mDataset;
     private Context context;
 
     // Provide a reference to the views for each data item
@@ -32,7 +36,7 @@ public class MonAdapteur extends RecyclerView.Adapter<MonAdapteur.MyViewHolder> 
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MonAdapteur(Truc[] myDataset, Context ctx) {
+    public MonAdapteur(List<Truc> myDataset, Context ctx) {
         this.mDataset = myDataset;
         this.context = ctx;
     }
@@ -52,13 +56,15 @@ public class MonAdapteur extends RecyclerView.Adapter<MonAdapteur.MyViewHolder> 
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final Truc truc = mDataset[position];
+        final Truc truc = mDataset.get(position);
         holder.tvAA.setText(truc.contenu);
         holder.tvBB.setText(truc.date.toString());
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Element " + truc.contenu , Toast.LENGTH_SHORT).show();
+                SuppressionTruc evt = new SuppressionTruc();
+                evt.elementSupprime = truc;
+                MonBus.bus.post(evt);
             }
         });
     }
@@ -66,6 +72,6 @@ public class MonAdapteur extends RecyclerView.Adapter<MonAdapteur.MyViewHolder> 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }
